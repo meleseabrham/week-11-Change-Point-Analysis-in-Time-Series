@@ -1,0 +1,10 @@
+pymc>=5.0.0
+numpy
+pandas
+matplotlib
+seaborn
+scipy
+arviz
+jupyter
+statsmodels
+python-dotenv
