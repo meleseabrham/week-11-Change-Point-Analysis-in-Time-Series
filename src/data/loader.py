@@ -23,7 +23,8 @@ class DataLoader:
             
             # Basic validation/cleaning
             if 'Date' in self.data.columns:
-                self.data['Date'] = pd.to_datetime(self.data['Date'], format='%d-%b-%y')
+                self.data['Date'] = pd.to_datetime(self.data['Date'], errors='coerce')
+                self.data = self.data.dropna(subset=['Date'])
                 self.data = self.data.sort_values('Date').reset_index(drop=True)
             
             logger.info(f"Successfully loaded {len(self.data)} rows.")
