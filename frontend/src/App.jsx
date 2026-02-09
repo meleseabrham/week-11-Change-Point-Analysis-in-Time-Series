@@ -263,7 +263,7 @@ function App() {
             </section>
 
             <footer style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #18181b', textAlign: 'center' }}>
-                <p style={{ fontSize: '0.7rem', color: '#52525b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+                <p style={{ fontSize: '0.7rem', color: '#ededf4ff', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
                     © 2026 Birhan Energies Consultant Portal — Proprietary Insight
                 </p>
             </footer>

@@ -33,6 +33,31 @@ This repository contains a full-stack analytical platform designed to detect str
 
 ---
 
+## 🔌 API Documentation
+
+The Birhan Intelligence Backend exposes a set of RESTful endpoints.
+
+### 1. `GET /api/prices`
+Fetches historical Brent Oil prices.
+- **Query Parameters**:
+  - `start_date` (string, `YYYY-MM-DD`): Filter data starting from this date.
+  - `end_date` (string, `YYYY-MM-DD`): Filter data ending at this date.
+- **Output**: Array of `{ "Date": "...", "Price": 0.0 }`.
+
+### 2. `GET /api/events`
+Returns the researched list of 16 key market catalysts.
+- **Output**: Array of `{ "Date": "...", "Event": "...", "Description": "..." }`.
+
+### 3. `GET /api/stats`
+Provides high-level summary statistics across the active dataset.
+- **Output**: `{ "avg_price": 0.0, "max_price": 0.0, "min_price": 0.0, "total_days": 123 }`.
+
+### 4. `GET /api/analysis`
+Provides the latest Bayesian impact report (Automated Task 2 outputs).
+- **Output**: `{ "report": "..." }`.
+
+---
+
 ## 🚀 Getting Started
 
 ### 1. Project Initialization

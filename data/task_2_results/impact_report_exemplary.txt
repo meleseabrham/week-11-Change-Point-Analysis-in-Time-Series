@@ -1,0 +1,25 @@
+
+============================================================
+EXEMPLARY BAYESIAN ANALYSIS REPORT
+============================================================
+1. DETECTED REGIME SHIFT
+   - Change Point Date: 2008-10-07
+   - Posterior Certainty (Median Tau): Index 193
+
+2. QUANTITATIVE MARKET IMPACT
+   - Expected Mean (Before): $110.49
+   - Expected Mean (After):  $52.23
+   - Magnitude of Shift:     -52.72%
+
+3. AUTOMATED EVENT ASSOCIATION
+   Matched the following researched events within ±30 days:
+No direct matches found in current window.
+
+4. CONVERGENCE DIAGNOSTICS
+   - Max R_hat: nan (Ideally < 1.05)
+   - Sampling completed successfully across 1 chains.
+
+5. LOG RETURN ANALYSIS
+   - Workflow included log-return computation for stationarity.
+   - Plot saved to data/task_2_results/log_returns_full.png
+============================================================
