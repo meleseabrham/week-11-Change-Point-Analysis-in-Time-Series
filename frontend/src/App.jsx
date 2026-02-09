@@ -90,6 +90,15 @@ function App() {
         loadData(start, end);
     };
 
+    const handleDownloadReport = () => {
+        const element = document.createElement("a");
+        const file = new Blob([analysis], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = "Birhan_Energies_Impact_Report.txt";
+        document.body.appendChild(element);
+        element.click();
+    };
+
     if (loading) return (
         <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', background: '#09090b', color: '#fbbf24', fontSize: '1.5rem', fontWeight: 'bold' }}>
             BIRHAN INTELLIGENCE...
@@ -109,7 +118,7 @@ function App() {
                     </div>
                 </div>
                 <div className="header-meta">
-                    <div className="flex-center" style={{ background: '#18181b', padding: '0.4rem 0.8rem', borderRadius: '0.75rem', border: '1px solid var(--border)' }}>
+                    <div className="date-input-group">
                         <Calendar size={14} color="#fbbf24" />
                         <input
                             type="date"
@@ -117,7 +126,6 @@ function App() {
                             onChange={(e) => setStartDate(e.target.value)}
                             min="1987-05-20"
                             max="2022-11-14"
-                            style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '0.75rem', outline: 'none', cursor: 'pointer' }}
                         />
                         <span style={{ color: '#52525b' }}>→</span>
                         <input
@@ -126,15 +134,17 @@ function App() {
                             onChange={(e) => setEndDate(e.target.value)}
                             min="1987-05-20"
                             max="2022-11-14"
-                            style={{ background: 'transparent', border: 'none', color: 'white', fontSize: '0.75rem', outline: 'none', cursor: 'pointer' }}
                         />
                         <button
                             onClick={handleApplyFilter}
-                            style={{ background: '#fbbf24', color: 'black', border: 'none', padding: '2px 8px', borderRadius: '4px', fontSize: '0.7rem', fontWeight: '900', cursor: 'pointer' }}
+                            style={{ background: '#fbbf24', color: 'black', border: 'none', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', fontWeight: '900', cursor: 'pointer' }}
                         >
                             APPLY
                         </button>
                     </div>
+                    <button className="btn-premium" onClick={handleDownloadReport} title="Export Analysis">
+                        <Download size={16} />
+                    </button>
                     <button className="btn-premium" onClick={() => loadData()}>
                         <RefreshCcw size={16} />
                     </button>
@@ -210,13 +220,37 @@ function App() {
                                     contentStyle={{ backgroundColor: '#000', border: '1px solid #fbbf24', borderRadius: '8px', fontSize: '12px' }}
                                     itemStyle={{ color: '#fbbf24', fontWeight: 'bold' }}
                                 />
-                                <Area type="monotone" dataKey="Price" stroke="#fbbf24" strokeWidth={2} fill="url(#coolGradient)" animationDuration={300} isAnimationActive={false} />
+                                <Area
+                                    type="monotone"
+                                    dataKey="Price"
+                                    stroke="#fbbf24"
+                                    strokeWidth={2}
+                                    fill="url(#coolGradient)"
+                                    animationDuration={300}
+                                    isAnimationActive={false}
+                                />
+
                                 {selectedEvent && (
                                     <ReferenceLine
                                         x={selectedEvent.Date}
                                         stroke="#ef4444"
-                                        strokeWidth={3}
-                                        label={{ position: 'top', fill: '#ef4444', value: 'EVENT', fontSize: 10, fontWeight: 'bold' }}
+                                        strokeWidth={4}
+                                        label={{
+                                            position: 'top',
+                                            fill: '#ef4444',
+                                            value: `🚨 ${selectedEvent.Event}`,
+                                            fontSize: 12,
+                                            fontWeight: '900',
+                                            dy: -10
+                                        }}
+                                        strokeDasharray="3 3"
+                                    />
+                                )}
+                                {selectedEvent && (
+                                    <ReferenceLine
+                                        x={selectedEvent.Date}
+                                        stroke="rgba(239, 68, 68, 0.2)"
+                                        strokeWidth={20}
                                     />
                                 )}
                             </AreaChart>
@@ -280,7 +314,7 @@ function App() {
             </section>
 
             <footer style={{ marginTop: '2rem', paddingTop: '2rem', borderTop: '1px solid #18181b', textAlign: 'center' }}>
-                <p style={{ fontSize: '0.7rem', color: '#52525b', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+                <p style={{ fontSize: '0.7rem', color: '#ffffffff', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
                     © 2026 Birhan Energies Consultant Portal — Proprietary Insight
                 </p>
             </footer>
