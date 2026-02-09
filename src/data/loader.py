@@ -14,23 +14,49 @@ class DataLoader:
 
     def load_data(self) -> pd.DataFrame:
         """
-        Loads the data from the CSV file.
-        Expects columns: 'Date' and 'Price'.
+        Loads the data from the CSV file and validates the schema.
+        
+        Args:
+            None
+        
+        Returns:
+            pd.DataFrame: Validated and cleaned oil price data.
+            
+        Raises:
+            FileNotFoundError: If the file is not found.
+            ValueError: If required columns ('Date', 'Price') are missing.
         """
+        import os
+        if not os.path.exists(self.file_path):
+            raise FileNotFoundError(f"The data file {self.file_path} does not exist.")
+
         try:
             logger.info(f"Loading data from {self.file_path}")
             self.data = pd.read_csv(self.file_path)
             
+            # Schema Validation
+            required_cols = {'Date', 'Price'}
+            if not required_cols.issubset(self.data.columns):
+                missing = required_cols - set(self.data.columns)
+                raise ValueError(f"CSV is missing required columns: {missing}")
+
             # Basic validation/cleaning
-            if 'Date' in self.data.columns:
-                self.data['Date'] = pd.to_datetime(self.data['Date'], errors='coerce')
-                self.data = self.data.dropna(subset=['Date'])
-                self.data = self.data.sort_values('Date').reset_index(drop=True)
+            self.data['Date'] = pd.to_datetime(self.data['Date'], errors='coerce')
+            self.data['Price'] = pd.to_numeric(self.data['Price'], errors='coerce')
             
-            logger.info(f"Successfully loaded {len(self.data)} rows.")
+            # Remove invalid rows
+            initial_count = len(self.data)
+            self.data = self.data.dropna(subset=['Date', 'Price'])
+            
+            if len(self.data) < initial_count:
+                logger.warning(f"Dropped {initial_count - len(self.data)} invalid rows.")
+
+            self.data = self.data.sort_values('Date').reset_index(drop=True)
+            
+            logger.info(f"Successfully loaded {len(self.data)} clean rows.")
             return self.data
         except Exception as e:
-            logger.error(f"Error loading data: {e}")
+            logger.error(f"Error loading or validating data: {e}")
             raise
 
     def get_processed_data(self) -> pd.DataFrame:
