@@ -7,8 +7,8 @@ EXEMPLARY BAYESIAN ANALYSIS REPORT
    - Posterior Certainty (Median Tau): Index 194
 
 2. QUANTITATIVE MARKET IMPACT
-   - Expected Mean (Before): $110.45
-   - Expected Mean (After):  $52.31
+   - Expected Mean (Before): $110.39
+   - Expected Mean (After):  $52.28
    - Magnitude of Shift:     -52.64%
 
 3. AUTOMATED EVENT ASSOCIATION

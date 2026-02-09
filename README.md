@@ -105,12 +105,15 @@ npm run dev
 
 ---
 
-## ✨ Features
+## ✨ Exemplary Features
 
-- **Interactive Timeline**: Scrub through 35 years of price data with high-resolution zooming.
-- **Event Highlights**: Click on any "Market Catalyst" to visualize its impact point on the price evolution.
-- **Bayesian Insights**: View real-time MCMC quantification of price regime shifts.
-- **Robust Validation**: Built-in input sanitization and unit tests for data integrity.
+- **Advanced Bayesian Diagnostics**: Full MCMC convergence checks with R-hat metrics and effective sample size (ESS) tracking.
+- **Automated Catalyst Association**: Detected change points are programmatically matched against researched geopolitical events.
+- **Log-Return Intelligence**: Explicit workflow for price stationarity and volatility clustering analysis.
+- **Interactive Timeline**: Scrub through 35 years of price data with high-resolution zooming and custom date ranges.
+- **Event Highlighting**: Visual pulse markers on the chart for key market catalysts.
+- **Responsive Premium UI**: Glassmorphic dashboard optimized for both desktop and mobile analytics.
+- **One-Click Export**: Ability to download the formal Bayesian impact analysis directly from the portal.
 
 ## 👥 Stakeholders
 - **Investors**: Risk management and hedging optimization.
