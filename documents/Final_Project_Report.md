@@ -28,7 +28,8 @@ We utilized **PyMC** to build a structural break model. Unlike traditional movin
 
 ## 2. Findings: Quantifying the Shocks
 ### The 2008 Global Financial Crisis Case Study
-[INSERT_IMAGE: Posterior Distribution of Tau - Show the concentration of probability around Oct 2008]
+![Posterior Distribution of Tau](../data/task_2_results/tau_posterior_2008.png)
+*Figure 1: Concentration of probability around early October 2008, indicating a high-confidence structural regime shift.*
 
 Our model precisely identified a structural break on **October 7, 2008**. 
 
@@ -40,14 +41,13 @@ Our model precisely identified a structural break on **October 7, 2008**.
 ### Event Association
 The detected date aligns programmatically with the peak fallout of the **Lehman Brothers Collapse** (Sept 15, 2008). While the collapse happened in mid-September, our model captures the "realized" regime shift in the oil market three weeks later as global demand expectations fundamentally reset.
 
-[INSERT_IMAGE: Price Overlay - Show the vertical red line slicing the 2008 price peak]
+![Price Overlay: 2008 Change Point](../data/task_2_results/change_point_overlay.png)
+*Figure 2: Brent Crude Price evolution with the Bayesian detected change point (red) marking the transition into the low-demand regime.*
 
 ---
 
 ## 3. The Birhan Intelligence Portal (Dashboard)
 To put this intelligence in the hands of decision-makers, we developed a full-stack interactive dashboard.
-
-[INSERT_IMAGE: Dashboard Main View - Show the glassmorphic UI with the 2022 Invasion of Ukraine highlighted]
 
 **Key Features:**
 - **Pulsate Event Highlighting**: Visualizes the immediate price reaction to historical catalysts.
