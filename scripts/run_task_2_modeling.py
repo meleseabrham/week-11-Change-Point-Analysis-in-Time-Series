@@ -91,6 +91,8 @@ def run_modeling():
     plt.legend()
     plt.savefig("data/task_2_results/change_point_overlay.png")
 
+    events_str = associated_events[['Date', 'Event']].to_string(index=False) if not associated_events.empty else "No direct matches found in current window."
+    
     # 7. FINAL REPORT
     report = f"""
 ============================================================
@@ -107,7 +109,7 @@ EXEMPLARY BAYESIAN ANALYSIS REPORT
 
 3. AUTOMATED EVENT ASSOCIATION
    Matched the following researched events within ±30 days:
-{associated_events[['Date', 'Event']].to_string(index=False) if not associated_events.empty else "No direct matches found in current window."}
+{events_str}
 
 4. CONVERGENCE DIAGNOSTICS
    - Max R_hat: {summary['r_hat'].max():.4f} (Ideally < 1.05)

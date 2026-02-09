@@ -3,17 +3,18 @@
 EXEMPLARY BAYESIAN ANALYSIS REPORT
 ============================================================
 1. DETECTED REGIME SHIFT
-   - Change Point Date: 2008-10-07
-   - Posterior Certainty (Median Tau): Index 193
+   - Change Point Date: 2008-10-08
+   - Posterior Certainty (Median Tau): Index 194
 
 2. QUANTITATIVE MARKET IMPACT
-   - Expected Mean (Before): $110.49
-   - Expected Mean (After):  $52.23
-   - Magnitude of Shift:     -52.72%
+   - Expected Mean (Before): $110.45
+   - Expected Mean (After):  $52.31
+   - Magnitude of Shift:     -52.64%
 
 3. AUTOMATED EVENT ASSOCIATION
    Matched the following researched events within ±30 days:
-No direct matches found in current window.
+      Date                    Event
+2008-09-15 Lehman Brothers Collapse
 
 4. CONVERGENCE DIAGNOSTICS
    - Max R_hat: nan (Ideally < 1.05)

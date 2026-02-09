@@ -90,6 +90,15 @@ function App() {
         loadData(start, end);
     };
 
+    const handleDownloadReport = () => {
+        const element = document.createElement("a");
+        const file = new Blob([analysis], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = "Birhan_Energies_Impact_Report.txt";
+        document.body.appendChild(element);
+        element.click();
+    };
+
     if (loading) return (
         <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', background: '#09090b', color: '#fbbf24', fontSize: '1.5rem', fontWeight: 'bold' }}>
             BIRHAN INTELLIGENCE...
@@ -135,6 +144,9 @@ function App() {
                             APPLY
                         </button>
                     </div>
+                    <button className="btn-premium" onClick={handleDownloadReport} title="Export Analysis">
+                        <Download size={16} />
+                    </button>
                     <button className="btn-premium" onClick={() => loadData()}>
                         <RefreshCcw size={16} />
                     </button>
