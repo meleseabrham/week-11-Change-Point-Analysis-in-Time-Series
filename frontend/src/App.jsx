@@ -35,6 +35,7 @@ function App() {
     const [analysis, setAnalysis] = useState("");
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [timeRange, setTimeRange] = useState('MAX');
 
     const loadData = async () => {
         try {
@@ -57,11 +58,47 @@ function App() {
 
     useEffect(() => { loadData(); }, []);
 
-    const chartData = useMemo(() => {
+    const filteredPrices = useMemo(() => {
         if (!prices.length) return [];
-        // Downsample for performance (approx 10 points per month over 35 years)
-        return prices.filter((_, i) => i % 5 === 0);
-    }, [prices]);
+        let data = [...prices];
+        const lastDate = new Date(data[data.length - 1].Date);
+
+        if (timeRange === '1Y') {
+            const cutoff = new Date(lastDate);
+            cutoff.setFullYear(cutoff.getFullYear() - 1);
+            data = data.filter(p => new Date(p.Date) >= cutoff);
+        } else if (timeRange === '5Y') {
+            const cutoff = new Date(lastDate);
+            cutoff.setFullYear(cutoff.getFullYear() - 5);
+            data = data.filter(p => new Date(p.Date) >= cutoff);
+        }
+
+        // Downsample for performance if needed
+        const step = data.length > 3000 ? 5 : 1;
+        return data.filter((_, i) => i % step === 0);
+    }, [prices, timeRange]);
+
+    // Find the closest date in filteredPrices to the selected event
+    const closestDate = useMemo(() => {
+        if (!selectedEvent || !filteredPrices.length) return null;
+        const target = selectedEvent.Date;
+        // If it exists exactly, return it
+        if (filteredPrices.find(p => p.Date === target)) return target;
+
+        // Otherwise find closest for visual pinning
+        const targetTs = new Date(target).getTime();
+        let closest = filteredPrices[0].Date;
+        let minDiff = Math.abs(new Date(closest).getTime() - targetTs);
+
+        for (const p of filteredPrices) {
+            const diff = Math.abs(new Date(p.Date).getTime() - targetTs);
+            if (diff < minDiff) {
+                minDiff = diff;
+                closest = p.Date;
+            }
+        }
+        return closest;
+    }, [selectedEvent, filteredPrices]);
 
     if (loading) return (
         <div style={{ display: 'flex', height: '100vh', alignItems: 'center', justifyContent: 'center', background: '#09090b', color: '#fbbf24', fontSize: '1.5rem', fontWeight: 'bold' }}>
@@ -84,7 +121,7 @@ function App() {
                 <div className="header-meta">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '0.5rem 1rem', background: '#18181b', borderRadius: '0.75rem', fontSize: '0.8rem', fontWeight: '700' }}>
                         <Calendar size={14} color="#fbbf24" />
-                        1987 — 2022
+                        {timeRange === 'MAX' ? '1987 — 2022' : timeRange + ' View'}
                     </div>
                     <button className="btn-premium" onClick={loadData}>
                         <RefreshCcw size={16} /> Refresh
@@ -111,15 +148,31 @@ function App() {
                             </p>
                         </div>
                         <div style={{ display: 'flex', gap: '4px' }}>
-                            <button style={{ padding: '4px 8px', fontSize: '0.7rem', background: '#000', border: '1px solid #27272a', color: '#71717a', borderRadius: '4px' }}>1Y</button>
-                            <button style={{ padding: '4px 8px', fontSize: '0.7rem', background: '#000', border: '1px solid #27272a', color: '#71717a', borderRadius: '4px' }}>5Y</button>
-                            <button style={{ padding: '4px 8px', fontSize: '0.7rem', background: '#fbbf24', border: 'none', color: '#000', borderRadius: '4px', fontWeight: '700' }}>MAX</button>
+                            {['1Y', '5Y', 'MAX'].map(t => (
+                                <button
+                                    key={t}
+                                    onClick={() => setTimeRange(t)}
+                                    style={{
+                                        padding: '4px 12px',
+                                        fontSize: '0.75rem',
+                                        background: timeRange === t ? '#fbbf24' : '#000',
+                                        border: timeRange === t ? 'none' : '1px solid #27272a',
+                                        color: timeRange === t ? '#000' : '#71717a',
+                                        borderRadius: '6px',
+                                        fontWeight: '700',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s'
+                                    }}
+                                >
+                                    {t}
+                                </button>
+                            ))}
                         </div>
                     </div>
 
                     <div style={{ flex: 1, width: '100%', minHeight: '350px' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+                            <AreaChart data={filteredPrices} margin={{ top: 20, right: 20, left: -10, bottom: 20 }}>
                                 <defs>
                                     <linearGradient id="coolGradient" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.2} />
@@ -127,7 +180,14 @@ function App() {
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#27272a" vertical={false} />
-                                <XAxis dataKey="Date" hide />
+                                <XAxis
+                                    dataKey="Date"
+                                    stroke="#52525b"
+                                    fontSize={10}
+                                    tickLine={false}
+                                    axisLine={false}
+                                    minTickGap={60}
+                                />
                                 <YAxis
                                     stroke="#52525b"
                                     fontSize={10}
@@ -139,9 +199,9 @@ function App() {
                                     contentStyle={{ backgroundColor: '#000', border: '1px solid #fbbf24', borderRadius: '8px' }}
                                     itemStyle={{ color: '#fbbf24', fontWeight: 'bold' }}
                                 />
-                                <Area type="monotone" dataKey="Price" stroke="#fbbf24" strokeWidth={2} fill="url(#coolGradient)" animationDuration={1000} />
-                                {selectedEvent && (
-                                    <ReferenceLine x={selectedEvent.Date} stroke="#ef4444" strokeWidth={2} strokeDasharray="3 3" />
+                                <Area type="monotone" dataKey="Price" stroke="#fbbf24" strokeWidth={2} fill="url(#coolGradient)" animationDuration={500} isAnimationActive={false} />
+                                {selectedEvent && closestDate && (
+                                    <ReferenceLine x={closestDate} stroke="#ef4444" strokeWidth={3} label={{ position: 'top', fill: '#ef4444', value: 'EVENT', fontSize: 10, fontWeight: 'bold' }} />
                                 )}
                             </AreaChart>
                         </ResponsiveContainer>
@@ -158,7 +218,10 @@ function App() {
                             <div
                                 key={idx}
                                 className={`event-card ${selectedEvent?.Event === e.Event ? 'active' : ''}`}
-                                onClick={() => setSelectedEvent(e)}
+                                onClick={() => {
+                                    setSelectedEvent(e);
+                                    if (timeRange !== 'MAX') setTimeRange('MAX'); // Switch to MAX to see historic events
+                                }}
                             >
                                 <p className="event-date">{e.Date}</p>
                                 <h4 className="event-name">{e.Event}</h4>
