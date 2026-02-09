@@ -13,8 +13,9 @@ ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 def load_prices():
     path = os.path.join(ROOT_DIR, 'data', 'raw', 'BrentOilPrices.csv')
     df = pd.read_csv(path)
-    # The format in BrentOilPrices.csv is '20-May-87'
-    df['Date'] = pd.to_datetime(df['Date'], format='%d-%b-%y', errors='coerce')
+    # The dataset contains mixed formats: '20-May-87' and 'Nov 14, 2022'
+    # pd.to_datetime with format='mixed' or no format handles this reliably
+    df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
     df = df.dropna().sort_values('Date')
     df['Date'] = df['Date'].dt.strftime('%Y-%m-%d')
     return df
