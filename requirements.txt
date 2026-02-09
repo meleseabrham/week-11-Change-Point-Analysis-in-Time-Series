@@ -9,3 +9,5 @@ jupyter
 statsmodels
 python-dotenv
 pytest
+flask
+flask-cors

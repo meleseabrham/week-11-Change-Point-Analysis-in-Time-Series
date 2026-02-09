@@ -1,0 +1,64 @@
+:root {
+  --primary: #fbbf24;
+  --primary-glow: rgba(251, 191, 36, 0.4);
+  --bg-main: #0a0a0a;
+  --bg-card: rgba(25, 25, 25, 0.7);
+  --text-dim: #94a3b8;
+  --text-bright: #f8fafc;
+  --border: rgba(255, 255, 255, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(251, 191, 36, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(30, 64, 175, 0.05) 0px, transparent 50%);
+  min-height: 100vh;
+  color: var(--text-bright);
+}
+
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.glow-text {
+  text-shadow: 0 0 10px var(--primary-glow);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--primary-glow);
+}
+
+/* Custom chart tooltips */
+.recharts-tooltip-wrapper {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid var(--primary) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(4px) !important;
+}
