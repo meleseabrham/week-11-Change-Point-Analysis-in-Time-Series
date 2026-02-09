@@ -76,9 +76,13 @@ Our analysis focuses on "associating causes," which strongly suggests causal lin
 ## 4. Understanding the Model and Data
 
 ### Time Series Properties (Analysis Results)
-- **Trend**: The data shows clear multi-year cycles (e.g., the 2000s super-cycle) and significant structural breaks.
-- **Stationarity**: Augmented Dickey-Fuller (ADF) test confirms price is **non-stationary** (p=0.29), meaning it has a unit root. Returns are **stationary** (p<0.01).
-- **Volatility**: Volatility is not constant (Heteroscedasticity). Significant clusters of high volatility occur during crises (2008, 2020).
+- **Trend**: The data shows clear multi-year cycles. Analysis using a 252-day moving average reveals significant structural breaks around 2008 (GFC) and 2014 (Shale Revolution).
+- **Stationarity**: Augmented Dickey-Fuller (ADF) test results:
+  - **Raw Price**: ADF Statistic = -1.99, p-value = 0.29 (Non-Stationary).
+  - **Daily Returns**: ADF Statistic = -17.11, p-value = 0.00 (Stationary).
+- **Volatility**: Volatility is not constant. Mean annualized volatility is approximately **33.8%**, with peaks exceeding **300%** during the 2020 COVID-19/Price War shock.
+
+*(Detailed visualizations are available in `notebooks/01_task_1_eda.ipynb`)*
 
 ### Change Point Models Explained
 Change point models are statistical methods used to detect when the underlying distribution of a time series changes. In the context of oil prices, they help identify **structural breaks** where the market "regime" shifts—for example, a shift from a low-price/low-volatility regime to a high-price/high-volatility one.
