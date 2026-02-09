@@ -24,6 +24,9 @@ We utilized **PyMC** to build a structural break model. Unlike traditional movin
 - **MCMC Sampling**: Using the No-U-Turn Sampler (NUTS), we executed thousands of simulations to build a "posterior distribution" of where the market regime shifted.
 - **Rigor**: Each model was validated using **R-hat diagnostics** (ensuring convergence) and trace plots to verify that our sampling chains explored the data effectively.
 
+![MCMC Convergence: Trace Plots](../data/task_2_results/exemplary_trace.png)
+*Figure 1: Full MCMC Trace Plots showing healthy chain mixing and high-density intervals for regime parameters.*
+
 ---
 
 ## 2. Findings: Quantifying the Shocks
@@ -32,6 +35,9 @@ We utilized **PyMC** to build a structural break model. Unlike traditional movin
 *Figure 1: Concentration of probability around early October 2008, indicating a high-confidence structural regime shift.*
 
 Our model precisely identified a structural break on **October 7, 2008**. 
+
+![Posterior Comparison: Before vs After](../data/task_2_results/means_posterior_2008.png)
+*Figure 3: Clearly separated posterior distributions for mean prices (mu_1 vs mu_2), quantifying the regime collapse.*
 
 **Quantitative Market Impact:**
 - **Pre-Shock Regime Mean**: $110.49
