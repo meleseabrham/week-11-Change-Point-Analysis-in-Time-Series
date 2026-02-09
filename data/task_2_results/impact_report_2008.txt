@@ -1,0 +1,7 @@
+
+    --- Task 2 Quantitative Impact Report ---
+    Detected Change Point Date: 2008-10-07
+    Mean Price Before: $110.47
+    Mean Price After: $52.32
+    Percentage Change: -52.63%
+    
