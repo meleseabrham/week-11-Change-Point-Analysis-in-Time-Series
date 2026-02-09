@@ -270,8 +270,28 @@ function App() {
                                 className={`event-card ${selectedEvent?.Event === e.Event ? 'active' : ''}`}
                                 onClick={() => {
                                     setSelectedEvent(e);
-                                    // If event is outside current visible range, we might want to reset to MAX
-                                    // But for now just show and let user adjust if they want
+
+                                    // DYNAMIC ZOOM: Focus chart on 1-year window around event (±6 months)
+                                    const eventDate = new Date(e.Date);
+
+                                    const start = new Date(eventDate);
+                                    start.setMonth(start.getMonth() - 6);
+
+                                    const end = new Date(eventDate);
+                                    end.setMonth(end.setMonth() + 6);
+
+                                    // Format back to YYYY-MM-DD
+                                    const startStr = start.toISOString().split('T')[0];
+                                    const endStr = end.toISOString().split('T')[0];
+
+                                    // Clamp to project range
+                                    const finalStart = start < new Date('1987-05-20') ? '1987-05-20' : startStr;
+                                    const finalEnd = end > new Date('2022-11-14') ? '2022-11-14' : endStr;
+
+                                    setStartDate(finalStart);
+                                    setEndDate(finalEnd);
+                                    setActiveRange('ZOOM');
+                                    loadData(finalStart, finalEnd);
                                 }}
                             >
                                 <p className="event-date">{e.Date}</p>
